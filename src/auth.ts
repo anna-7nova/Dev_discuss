@@ -1,16 +1,16 @@
-import NextAuth from "next-auth"; /didnt show router
-import GitHub from "../node_modules/@auth/core/providers/github"; //didnt show router
-import { PrismaAdapter } from "../node_modules/@auth/prisma-adapter/index";
+import NextAuth from "next-auth";
+import GitHub from "../node_modules/@auth/core/providers/github";
+import { PrismaAdapter } from "../node_modules/@auth/prisma-adapter";
 import { db } from "../src/db";
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID; //need to read documentation to understand principle
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET; //need to read documentation to understand principle
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
     throw new Error("Missing github credentials!")
 }
 
-export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({ //need to read documentation to understand principle
+export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(db),
     providers: [
         GitHub({
@@ -18,7 +18,7 @@ export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({ //n
             clientSecret: GITHUB_CLIENT_SECRET,
         })
     ],
-    callback: {
+    callbacks: {
         async session({ session, user }: any) {
             if (session && user) {
                 session.user.id = user.id;
@@ -26,4 +26,4 @@ export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({ //n
             return session;
         }
     }
-})
+});
