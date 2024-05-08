@@ -1,13 +1,13 @@
+'use client';
+
 import * as action from '@/actions';
 import { auth } from '@/auth';
 import { Button, useDisclosure } from '@nextui-org/react';
-import ModalWindow from './components/modal-window';
-import CustomInput from './components/custom-input';
-import { createTopic } from '@/app/actions';
+import ModalCreateTopic from './components/modal-create-topic';
 
-export default async function Home() {
-  const session = await auth();
-  // const { isOpen, onOpenChange, onOpen } = useDisclosure();
+export default function Home() {
+  // const session = await auth();
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
   return (
     <main>
@@ -22,7 +22,7 @@ export default async function Home() {
           </form>
         </div>
       </div>
-      <div className='flex flex-row-reverse'>
+      {/* <div className='flex flex-row-reverse'>
         {session?.user ? (
           <div>
             <h3>Signed in</h3>
@@ -31,12 +31,11 @@ export default async function Home() {
         ) : (
           <div>Signed out</div>
         )}
-      </div>
-      {/* <Button onPress={onOpen}>New Topic</Button>
-      <ModalWindow title='Create a Topic' isOpen={isOpen} onOpenChange={onOpenChange} formHandler={createTopic}>
-        <CustomInput id='name' label='Name' placeholder='Enter topic name' name='name' />
-        <CustomInput id='description' label='Description' placeholder='Description' name='description' />
-      </ModalWindow> */}
+      </div> */}
+      <Button onPress={onOpen} color='primary'>
+        New Topic
+      </Button>
+      <ModalCreateTopic isOpen={isOpen} onOpenChange={onOpenChange} />
     </main>
   );
 }
