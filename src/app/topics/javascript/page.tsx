@@ -7,14 +7,14 @@ export default async function TopicView() {
     console.log(posts);
 
     return (
-        <div >
-            <div className="flex flex-row justify-between items-center">
+        <div className="p-4">
+            <div className="flex flex-row justify-between items-center mb-2">
                 <h2 className="text-xl font-bold">javascript</h2>
                 <Link className="border p-2 border-rounded" href="/posts/new">Create Post</Link>
             </div>
 
             <div className="flex flex-row justify-between">
-                <div className="flex flex-col grow">
+                <div className="flex flex-col grow pr-6">
                     <div className="items-center p-2 border rounded">
                         <div>{posts.map(({ id, title, user, comments }) => (
                             <Link className="items-center p-2 border rounded" key={id} href={`/posts/${id}`}>

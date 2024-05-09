@@ -29,13 +29,13 @@ export default async function Home() {
           <div>Signed out</div>
         )}
       </div>
-      <div className="border p-2 border-rounded">
-        <div className="flex flex-row justify-between items-center">
+      <div className="border p-4 border-rounded">
+        <div className="flex flex-row justify-between items-center mb-2">
           <h2 className="text-xl font-bold">Top Posts</h2>
           <Button className="border p-2 border-rounded">New Topic</Button>
         </div>
         <div className="flex flex-row justify-between">
-          <div className="flex flex-col grow">
+          <div className="flex flex-col grow pr-6">
             <div className="items-center p-2 border rounded">
               <div>{posts.map(({ id, title, user, comments }) => (
                 <Link className="items-center p-2 border rounded" key={id} href={`/posts/${id}`}>
