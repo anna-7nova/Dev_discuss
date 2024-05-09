@@ -10,12 +10,12 @@ type ModalWindowProps = {
   };
   
   export default function ModalSignWindow({ name, imageUrl, isOpen, onOpenChange }: ModalWindowProps) {
-
+    console.log(imageUrl)
     return (
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='top-center'>
         <ModalContent>
           {(onClose) => (
-            <form>
+            <form onClick ={onClose}>
               <ModalBody> 
                     
                     <Avatar src={imageUrl} className="w-20 h-20 text-large" />

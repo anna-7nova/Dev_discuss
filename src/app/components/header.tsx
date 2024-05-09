@@ -27,7 +27,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
           {!data?.user ? (
             <form action={action.signIn} >
               <Button
-                type="submit" onClick={onOpen} className="bg-gradient-to-tr from-blue-500 to-violet-500 text-white shadow-lg">
+                type="submit" onClick={onOpen} className="bg-gradient-to-tr from-green-500 to-blue-500 text-white shadow-lg">
                 Sign in
               </Button>
               
@@ -37,14 +37,14 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
    
             <form action={action.signOut}>
 
-              <Button type="submit" className="bg-gradient-to-tr from-grey-400 to-grey-800 text-black shadow">Sign out</Button> 
+              <Button type="submit" className="bg-gradient-to-tr from-grey-800 to-grey-800 text-black shadow">Sign out</Button> 
             </form>
               
 
           )}
          <div>
               { data.user &&
-                <ModalSignWindow name ={JSON.stringify(data.user?.name)} imageUrl = {JSON.stringify(data.user?.image)} isOpen={isOpen} onOpenChange={onOpenChange} >
+                <ModalSignWindow name ={JSON.stringify(data.user?.name)} imageUrl = {JSON.stringify(data.user?.image)} isOpen={!isOpen} onOpenChange={onOpenChange} >
                 </ModalSignWindow>
               }
 
