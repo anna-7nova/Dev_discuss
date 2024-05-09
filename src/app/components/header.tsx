@@ -12,7 +12,6 @@ interface headerComponentProps {
   }
   
 const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
-    console.log(data)
     const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
 

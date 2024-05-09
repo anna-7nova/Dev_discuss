@@ -11,7 +11,6 @@ type ModalWindowProps = {
   };
   
   export default function ModalSignWindow({ name, imageUrl, isOpen, onOpenChange }: ModalWindowProps) {
-    console.log(imageUrl)
     return (
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='top-center'>
         <ModalContent>
