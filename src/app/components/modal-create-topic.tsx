@@ -23,15 +23,9 @@ export default function ModalCreateTopic({ isOpen, onOpenChange }: ModalWindowPr
             <ModalBody>
               <CustomInput id='name' label='Name' placeholder='Enter topic name' name='name' />
               <CustomInput id='description' label='Description' placeholder='Enter a description' name='description' />
-              {!!errMessage && <p className='text-xs text-red-600'>{errMessage}</p>}
             </ModalBody>
             <ModalFooter>
-              <Button
-                onPress={!errMessage ? undefined : onClose}
-                type='submit'
-                color='primary'
-                isDisabled={!!errMessage}
-              >
+              <Button onPress={onClose} type='submit' color='primary'>
                 Submit
               </Button>
             </ModalFooter>
