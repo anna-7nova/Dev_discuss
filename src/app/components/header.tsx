@@ -4,8 +4,8 @@ import { Button } from "@nextui-org/react";
 import { useDisclosure } from '@nextui-org/react';
 import * as action from "@/actions";
 import ModalSignWindow from './modalSignWindow'
-import Loader from "react-loader-spinner"; 
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"; 
+import SVGComponent from "./logotype";
+import SearchComponent from "./search"
 
 interface headerComponentProps {
     data: Record<string, any>; // указываем тип данных для props data
@@ -15,23 +15,41 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
     console.log(data)
     const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
+
     return (
       <main>
-        <div className="flex justify-between items-center bg-gray-100 rounded-lg">
-          <h2>Discuss</h2>
+        <div className="flex justify-between items-center bg-gray-100 rounded-lg p-4 ">
+          <h2 className="ml--4"> 
+            <SVGComponent/>
+          </h2>
+          <SearchComponent/>
           <div className="flex">
           {!data?.user ? (
-            <form action={action.signIn}>
-              <Button type="submit" onClick={onOpen} >Sign in</Button>
+            <form action={action.signIn} >
+              <Button
+                type="submit" onClick={onOpen} className="bg-gradient-to-tr from-blue-500 to-violet-500 text-white shadow-lg">
+                Sign in
+              </Button>
               
-              <ModalSignWindow name ={JSON.stringify(data.user?.name)} imageUrl = {JSON.stringify(data.user?.image)} isOpen={isOpen} onOpenChange={onOpenChange} >
-              </ModalSignWindow>
             </form>
             ) : (
-              <form action={action.signOut}>
-              <Button type="submit">Sign out</Button> 
+              
+   
+            <form action={action.signOut}>
+
+              <Button type="submit" className="bg-gradient-to-tr from-grey-400 to-grey-800 text-black shadow">Sign out</Button> 
             </form>
+              
+
           )}
+         <div>
+              { data.user &&
+                <ModalSignWindow name ={JSON.stringify(data.user?.name)} imageUrl = {JSON.stringify(data.user?.image)} isOpen={isOpen} onOpenChange={onOpenChange} >
+                </ModalSignWindow>
+              }
+
+            </div>
+
           </div>
         </div>
 

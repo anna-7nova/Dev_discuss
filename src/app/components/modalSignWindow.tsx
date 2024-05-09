@@ -1,7 +1,6 @@
-'use client';
-
 import { Modal, ModalContent, ModalBody, ModalFooter, Button } from '@nextui-org/react';
-import { useFormState } from 'react-dom';
+import Loader from "react-loader-spinner"; 
+import {Avatar} from "@nextui-org/avatar";
 
 type ModalWindowProps = {
     name: string;
@@ -19,7 +18,7 @@ type ModalWindowProps = {
             <form>
               <ModalBody> 
                     
-                    <img src={imageUrl} alt="Photo" />
+                    <Avatar src={imageUrl} className="w-20 h-20 text-large" />
                         <>
                             <p>Hello, {name} !</p>
                             <p>Nice to meet you !</p>
