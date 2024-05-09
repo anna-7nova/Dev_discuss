@@ -1,11 +1,11 @@
-import * as action from '@/actions';
-import { auth } from '@/auth';
+'use client'
+
 import { Button, useDisclosure } from '@nextui-org/react';
 import ModalCreateTopic from './components/modal-create-topic';
 import GeneralHeader from './components/generalHeader';
 
 
-export default async function Home() {
+export default function Home() {
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
   return (
