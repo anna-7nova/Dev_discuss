@@ -1,6 +1,4 @@
 import { Modal, ModalContent, ModalBody, ModalFooter, Button } from '@nextui-org/react';
-import Loader from "react-loader-spinner"; 
-import {Avatar} from "@nextui-org/avatar";
 import SVGComponent from './logotype';
 
 type ModalWindowProps = {
