@@ -17,29 +17,28 @@ const SearchComponent =  () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchResult[]>([]);
     const [errorDb, setErrorDb] = useState('')
-    const [viewResults, setViewResults] = useState('')
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setQuery(event.target.value);
     };
-    const handleClick = () => {
-        setViewResults('false')
-        console.log(viewResults)
-    }
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try {
         const response = await axios.get<SearchResult[]>(`/api/search?query=${query}`);
         setResults(response.data);
         setErrorDb('false')
-        setViewResults('true')
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
         setErrorDb('true')
-        setViewResults('true')
       }
     };
-  
+
+    const handleItemClick = () => {
+        setResults([]);
+        setErrorDb('');
+      };
+
     return (
         <div style={{ position: 'relative', display:'flex'}}>
           <form onSubmit={handleSubmit} style={{ position: 'relative', display:'flex', justifyContent : 'space-between' , alignItems:'center'}}>
@@ -74,19 +73,19 @@ const SearchComponent =  () => {
             />
             <Button isIconOnly color="default" type='submit' className='ml-5'> <SearchIcon/> </Button>
           </form>
-          {results.length > 0  && viewResults &&  (
-            <div onClick={handleClick} className ="result-search" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, maxHeight: '200px', overflowY: 'auto', backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
+          {results.length > 0   &&  (
+            <div  onClick={handleItemClick} className ="result-search" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, maxHeight: '200px', overflowY: 'auto', backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
                 {results.map((result) => (
-                  <li key={result.id}>{result.title}</li>
+                  <li onClick={handleItemClick} key={result.id}>{result.title}</li>
                 ))}
               </ul>
             </div>
           )}
-          {errorDb && viewResults && (
-            <div onClick={handleClick}  style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
+          {errorDb  && (
+            <div onClick={handleItemClick} className ="result-search" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
               <ul  style={{ listStyleType: 'none', padding: 0 }}>
-                <li >No results</li>
+                <li onClick={handleItemClick} >No results</li>
               </ul>
             </div>
           )}
