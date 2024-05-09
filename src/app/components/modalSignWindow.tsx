@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalBody, ModalFooter, Button } from '@nextui-org/react';
 import Loader from "react-loader-spinner"; 
 import {Avatar} from "@nextui-org/avatar";
+import SVGComponent from './logotype';
 
 type ModalWindowProps = {
     name: string;
@@ -16,9 +17,9 @@ type ModalWindowProps = {
         <ModalContent>
           {(onClose) => (
             <form onClick ={onClose}>
-              <ModalBody> 
+              <ModalBody className="grid text-center place-content-center" > 
                     
-                    <Avatar src={imageUrl} className="w-20 h-20 text-large" />
+              <SVGComponent/>
                         <>
                             <p>Hello, {name} !</p>
                             <p>Nice to meet you !</p>
