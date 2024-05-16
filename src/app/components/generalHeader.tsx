@@ -15,7 +15,6 @@ export default async function GeneralHeader() {
     dataSession = ''
   }
   return (
-
     <main>
       <HeaderComponent  data={dataSession}/>
     </main>

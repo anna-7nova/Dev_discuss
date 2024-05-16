@@ -2,7 +2,6 @@
 
 import { Button, useDisclosure } from '@nextui-org/react';
 import ModalCreateTopic from './components/modal-create-topic';
-import GeneralHeader from './components/generalHeader';
 
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
   return (
 
     <main>
-      <GeneralHeader/>
       <Button onPress={onOpen} color='primary'>
         New Topic
       </Button>
