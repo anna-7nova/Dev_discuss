@@ -1,5 +1,5 @@
 const SVGComponent = () => (
-   <svg width="160" height="50" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <svg width="250" height="100" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_1_3)">
         <rect width="160" height="50" fill="none"/>
         <g clipPath="url(#clip1_1_3)">
