@@ -72,3 +72,31 @@ export const createPost = async (prevState: { message: string }, formData: FormD
     }
   }
 };
+
+
+export const createComment = async (state: { message: string }, formData: FormData) => {
+  const {content} = {
+    content: formData.get('content') as string,
+  };
+
+  try {
+    const newComment = await db.comment.create({
+      data: {
+        id: "",
+        content,
+        postId: "",
+        userId: "",
+        parentId: "",
+      },
+    });
+    console.log(newComment);
+    redirect(`/topics/topicIds/posts`);
+    
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    } else {
+      return { message: 'Something went wrong' };
+    }
+  }
+};
