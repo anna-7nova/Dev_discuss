@@ -1,26 +1,24 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useFormState } from 'react-dom';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@nextui-org/react';
 import { createPost } from '@/app/actions';
 import CustomInput from './custom-input';
 
 type ModalWindowProps = {
-  isOpen: boolean;
   onOpenChange: () => void;
 };
 
-export default function ModalCreatePost({ isOpen, onOpenChange }: ModalWindowProps) {
-  const pathName = usePathname();
-
-  console.log('pathName', pathName);
-  
+export default function ModalCreatePost({ onOpenChange }: ModalWindowProps) {
   const [state, formAction] = useFormState(createPost, { message: '' });
   const errMessage = state.message;
 
+  const router = useRouter();
+  const handleCloseModal = () => router.back();
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='top-center'>
+    <Modal defaultOpen={true} onOpenChange={onOpenChange} onClose={handleCloseModal} placement='top-center'>
       <ModalContent>
         {(onClose) => (
           <form action={formAction}>
@@ -31,12 +29,7 @@ export default function ModalCreatePost({ isOpen, onOpenChange }: ModalWindowPro
               {!!errMessage && <p className='text-xs text-red-600'>{errMessage}</p>}
             </ModalBody>
             <ModalFooter>
-              <Button
-                onPress={!errMessage ? undefined : onClose}
-                type='submit'
-                color='primary'
-                isDisabled={!!errMessage}
-              >
+              <Button onPress={onClose} type='submit' color='primary' isDisabled={!!errMessage}>
                 Submit
               </Button>
             </ModalFooter>
