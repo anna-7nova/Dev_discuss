@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@nextui-org/react';
+import PostCard from '@/app/components/post-card';
 import { db } from '../../../db';
 
 export default async function TopicView({ params }: { params: { topicId: string } }) {
@@ -18,14 +19,8 @@ export default async function TopicView({ params }: { params: { topicId: string 
         <div className='flex flex-col grow pr-6'>
           <div className='items-center p-2 border rounded'>
             <div>
-              {posts.map(({ id, title, user, comments }) => (
-                <Link className='items-center p-2 border rounded' key={id} href={`/posts/${id}`}>
-                  <p className='font-bold'>{title}</p>
-                  <div className='flex flex-row justify-between'>
-                    <div>{user}</div>
-                    <div>{comments}</div>
-                  </div>
-                </Link>
+              {posts.map(({ id, title, userId, topicId }) => (
+                <PostCard key={id} id={id} title={title} userId={userId} topicId={topicId} />
               ))}
             </div>
           </div>
