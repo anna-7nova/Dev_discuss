@@ -15,6 +15,7 @@ export const createTopic = async (prevState: { message: string }, formData: Form
     description: formData.get('description'),
   };
 
+  let newTopic;
   try {
     if (typeof name !== 'string' || name.length < 3) {
       return { message: 'Name should be longer' };
@@ -24,16 +25,13 @@ export const createTopic = async (prevState: { message: string }, formData: Form
       return { message: 'Description should be longer' };
     }
 
-    const newTopic = await db.topic.create({
+    newTopic = await db.topic.create({
       data: {
         slug: name,
         description,
       },
     });
 
-    console.log('newTopic', newTopic);
-    redirect('/');
-    
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };
@@ -41,9 +39,12 @@ export const createTopic = async (prevState: { message: string }, formData: Form
       return { message: 'Something went wrong' };
     }
   }
+  revalidatePath('/');
+  redirect(`/topics/${newTopic.slug}`);
 };
 
-export const createPost = async (topicId: string, formState: FormState, formData: FormData) => {
+export const createPost = async (slug: string, formState: FormState, formData: FormData) => {
+
   const { title, content } = {
     title: formData.get('title'),
     content: formData.get('content'),
@@ -55,11 +56,13 @@ export const createPost = async (topicId: string, formState: FormState, formData
     return { message: 'You must be signed in to create a post' };
   }
 
-  const topic = await db.topic.findFirst({ where: { slug: topicId } });
+  const topic = await db.topic.findFirst({ where: { slug } });
 
   if (!topic) {
     return { message: 'Cannot find this topic' };
   }
+
+  let newPost;
 
   try {
     if (typeof title !== 'string' || title.length < 3) {
@@ -70,7 +73,7 @@ export const createPost = async (topicId: string, formState: FormState, formData
       return { message: 'Content should be longer' };
     }
 
-    const newPost = await db.post.create({
+    newPost = await db.post.create({
       data: {
         title,
         content,
@@ -78,9 +81,6 @@ export const createPost = async (topicId: string, formState: FormState, formData
         topicId: topic.id,
       },
     });
-
-    revalidatePath(`/topics/${topicId}`);
-    redirect(`/topics/${topicId}/posts/${newPost.id}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };
@@ -88,4 +88,6 @@ export const createPost = async (topicId: string, formState: FormState, formData
       return { message: 'Something went wrong' };
     }
   }
+  revalidatePath(`/topics/${slug}`);
+  redirect(`/topics/${slug}/posts/${newPost.id}`);
 };

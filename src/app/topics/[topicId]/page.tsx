@@ -6,6 +6,7 @@ export default function TopicView({ params }: { params: { topicId: string } }) {
   return (
     <PageLayout
       title={params.topicId}
+      topicSlug={params.topicId}
       button={
         <Button href={`/topics/${params.topicId}/posts/new`} as={Link} color='primary' className='self-end'>
           Create Post

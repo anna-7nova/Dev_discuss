@@ -3,10 +3,13 @@ import PostCard from './post-card';
 
 type PostListProps = {
   title: string;
+  topicSlug: string;
 };
 
-export default async function PostList({ title }: PostListProps) {
-  const posts = await db.post.findMany();
+export default async function PostList({ title, topicSlug }: PostListProps) {
+  const topic = await db.topic.findFirst({ where: { slug: topicSlug } });
+  const posts = await db.post.findMany({ where: { topicId: topic?.id } });
+
   return (
     <div className='flex-initial basis-1/2 flex flex-col gap-y-8 items-stretch'>
       <h2 className='text-xl font-bold'>{title}</h2>
@@ -14,14 +17,6 @@ export default async function PostList({ title }: PostListProps) {
         {posts.map(({ id, title, userId, topicId }) => (
           <PostCard key={id} id={id} title={title} userId={userId} topicId={topicId} />
         ))}
-
-        <div className='items-center p-2 border rounded'>
-          <p className='font-bold'>Implementing Charts</p>
-          <div className='flex flex-row justify-between'>
-            <div>By wpa</div>
-            <div>20 comments</div>
-          </div>
-        </div>
       </div>
     </div>
   );
