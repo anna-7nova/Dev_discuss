@@ -1,9 +1,9 @@
 import CreateTopic from './components/create-topic';
 import PageLayout from './components/page-layout';
 
-export default function Home() {
+export default async function Home() {
   return (
-    <PageLayout title='Top Posts' button={<CreateTopic />} sidebarTitle='Topics'>
+    <PageLayout title='Top Posts' button={<CreateTopic />} sidebarTitle='Topics' topicSlug=''>
       <ul>
         <li>javascript</li>
         <li>golang</li>

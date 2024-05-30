@@ -9,18 +9,18 @@ type PostCardProps = {
 };
 
 export default async function PostCard({ id, title, userId, topicId }: PostCardProps) {
-  const topic = await db.topic.findFirst({ where: { slug: topicId } });
+  const topic = await db.topic.findFirst({ where: { id: topicId } });
   const user = await db.user.findUnique({ where: { id: userId } });
   const comments = await db.comment.findMany({ where: { postId: id } });
   return (
-    <div className='items-center p-2 border rounded'>
-      <Link className='items-center p-2 border rounded' key={id} href={`topics/${topic?.slug}/posts/${id}`}>
+    <Link key={id} href={`/topics/${topic?.slug}/posts/${id}`} color='foreground'>
+      <div className='container flex flex-col gap-y-4 p-2 border rounded'>
         <p className='font-bold'>{title}</p>
         <div className='flex flex-row justify-between'>
-          <div>{user?.name || 'Anonymous'}</div>
-          <div>{comments.length}</div>
+          <div>By {user?.name || 'Anonymous'}</div>
+          <div>{comments.length} comments</div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
