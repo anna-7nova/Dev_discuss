@@ -8,7 +8,7 @@ type PostListProps = {
 export default async function PostList({ title }: PostListProps) {
   const posts = await db.post.findMany();
   return (
-    <div className='flex-initial basis-1/2 p-4 flex flex-col gap-y-8 items-stretch mb-2'>
+    <div className='flex-initial basis-1/2 flex flex-col gap-y-8 items-stretch'>
       <h2 className='text-xl font-bold'>{title}</h2>
       <div className='flex flex-col grow gap-y-4'>
         {posts.map(({ id, title, userId, topicId }) => (
