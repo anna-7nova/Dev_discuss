@@ -1,7 +1,13 @@
 'use server';
 
+import { auth } from '@/auth';
 import { db } from '@/db';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+
+type FormState = {
+  message: string;
+};
 
 export const createTopic = async (prevState: { message: string }, formData: FormData) => {
   const { name, description } = {
@@ -37,11 +43,23 @@ export const createTopic = async (prevState: { message: string }, formData: Form
   }
 };
 
-export const createPost = async (prevState: { message: string }, formData: FormData) => {
+export const createPost = async (topicId: string, formState: FormState, formData: FormData) => {
   const { title, content } = {
     title: formData.get('title'),
     content: formData.get('content'),
   };
+
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return { message: 'You must be signed in to create a post' };
+  }
+
+  const topic = await db.topic.findFirst({ where: { slug: topicId } });
+
+  if (!topic) {
+    return { message: 'Cannot find this topic' };
+  }
 
   try {
     if (typeof title !== 'string' || title.length < 3) {
@@ -56,14 +74,13 @@ export const createPost = async (prevState: { message: string }, formData: FormD
       data: {
         title,
         content,
-        userId: '',
-        topicId: '',
+        userId: session.user.id,
+        topicId: topic.id,
       },
     });
 
-    console.log('newPost', newPost);
-    redirect('/');
-    
+    revalidatePath(`/topics/${topicId}`);
+    redirect(`/topics/${topicId}/posts/${newPost.id}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };

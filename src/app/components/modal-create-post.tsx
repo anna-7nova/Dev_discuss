@@ -8,10 +8,11 @@ import CustomInput from './custom-input';
 
 type ModalWindowProps = {
   onOpenChange: () => void;
+  topicId: string;
 };
 
-export default function ModalCreatePost({ onOpenChange }: ModalWindowProps) {
-  const [state, formAction] = useFormState(createPost, { message: '' });
+export default function ModalCreatePost({ onOpenChange, topicId }: ModalWindowProps) {
+  const [state, formAction] = useFormState(createPost.bind(null, topicId), { message: '' });
   const errMessage = state.message;
 
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function ModalCreatePost({ onOpenChange }: ModalWindowProps) {
               {!!errMessage && <p className='text-xs text-red-600'>{errMessage}</p>}
             </ModalBody>
             <ModalFooter>
-              <Button onPress={onClose} type='submit' color='primary' isDisabled={!!errMessage}>
+              <Button onPress={onClose} type='submit' color='primary'>
                 Submit
               </Button>
             </ModalFooter>
