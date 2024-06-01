@@ -1,10 +1,14 @@
 import { Button, Avatar } from "@nextui-org/react";
 import { db } from "@/db";
-import {createComment} from "@/app/actions"
 import CommentReplay from "./comment_replay";
+import CommentCreation from "@/app/components/comments_form"
 
-export default async function ViewAllComments() {
-  const comments= await db.comment.findFirst();
+interface AllCommentsProps {
+  postId: string,
+}
+export default async function ViewAllComments({postId}: AllCommentsProps) {
+  const comments= await db.comment.findMany();
+
   console.log(comments);
 
   return (
@@ -13,10 +17,10 @@ export default async function ViewAllComments() {
       <div className="flex flex-col gap-2">
         <div className="flex flex-row gap-7">
           <Avatar></Avatar>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col w-full gap-2">
             <h3>{/*User name*/}Marcos</h3>
-            <p>{comments?.content}Have you tried using the Charts JS library?</p>
-            <Button className="bg-white" style={{width:'15%', fontWeight: "700", fontSize:'16'}}>Reply</Button>
+            <div>fghsdfghdgf{}</div>
+            <CommentCreation postId=""/>
           </div>
         </div>
         {/*<CommentReplay></CommentReplay>*/}
