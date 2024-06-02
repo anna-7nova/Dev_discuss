@@ -5,14 +5,14 @@ import CommentCreation from "@/app/components/comments_form";
 
 interface ViewPostProps {
   params: {
-    slug: string;
+    topicId: string;
     postId: string;
   }
 }
 
 export default function ViewPostPage({params} : ViewPostProps) {
 
-  const {slug, postId} = params;
+  const {topicId, postId} = params;
 
   return (
     <main className="w-full flex flex-col justify-between items-center p-3 gap-5">

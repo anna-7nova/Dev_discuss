@@ -5,7 +5,7 @@ export default function CommentReplay() {
 <Avatar></Avatar>
 <div className="flex flex-col gap-2">
   <h3>{/*secondUser name*/}Mito</h3>
-  <p>{/*comment text*/}Yes, I'm tried</p>
+  <p>{/*comment text*/}Yes, I am tried</p>
   <Button className="bg-white" style={{width:'15%', fontWeight: "700", fontSize:'16'}}>Reply</Button>
 </div>
 </div>

@@ -21,7 +21,7 @@ const post = await db.post.findFirst({
           {/*post.title*/} Implementing charts
         </h3>
         <p style={{ fontSize: "16" }}>
-          {/*post.content*/}I'm trying to add a charts into my application, can
+          {/*post.content*/}I am trying to add a charts into my application, can
           somebody help me out
         </p>
         </div>
