@@ -6,15 +6,17 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-export const createTopic = async (
-  prevState: { message: string },
-  formData: FormData
-) => {
+type FormState = {
+  message: string;
+};
+
+export const createTopic = async (prevState: { message: string }, formData: FormData) => {
   const { name, description } = {
     name: formData.get("name"),
     description: formData.get("description"),
   };
 
+  let newTopic;
   try {
     if (typeof name !== "string" || name.length < 3) {
       return { message: "Name should be longer" };
@@ -24,15 +26,13 @@ export const createTopic = async (
       return { message: "Description should be longer" };
     }
 
-    const newTopic = await db.topic.create({
+    newTopic = await db.topic.create({
       data: {
         slug: name,
         description,
       },
     });
 
-    console.log("newTopic", newTopic);
-    redirect("/");
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };
@@ -40,16 +40,30 @@ export const createTopic = async (
       return { message: "Something went wrong" };
     }
   }
+  revalidatePath('/');
+  redirect(`/topics/${newTopic.slug}`);
 };
 
-export const createPost = async (
-  prevState: { message: string },
-  formData: FormData
-) => {
+export const createPost = async (slug: string, formState: FormState, formData: FormData) => {
+
   const { title, content } = {
     title: formData.get("title"),
     content: formData.get("content"),
   };
+
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return { message: 'You must be signed in to create a post' };
+  }
+
+  const topic = await db.topic.findFirst({ where: { slug } });
+
+  if (!topic) {
+    return { message: 'Cannot find this topic' };
+  }
+
+  let newPost;
 
   try {
     if (typeof title !== "string" || title.length < 3) {
@@ -60,17 +74,14 @@ export const createPost = async (
       return { message: "Content should be longer" };
     }
 
-    const newPost = await db.post.create({
+    newPost = await db.post.create({
       data: {
         title,
         content,
-        userId: "",
-        topicId: "",
+        userId: session.user.id,
+        topicId: topic.id,
       },
     });
-
-    console.log("newPost", newPost);
-    redirect("/");
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };
@@ -78,6 +89,8 @@ export const createPost = async (
       return { message: "Something went wrong" };
     }
   }
+  revalidatePath(`/topics/${slug}`);
+  redirect(`/topics/${slug}/posts/${newPost.id}`);
 };
 
 // Create comment action

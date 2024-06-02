@@ -1,7 +1,7 @@
 'use client';
 
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@nextui-org/react';
 import { useFormState } from 'react-dom';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@nextui-org/react';
 import { createTopic } from '@/app/actions';
 import CustomInput from './custom-input';
 
@@ -25,7 +25,7 @@ export default function ModalCreateTopic({ isOpen, onOpenChange }: ModalWindowPr
               <CustomInput id='description' label='Description' placeholder='Enter a description' name='description' />
             </ModalBody>
             <ModalFooter>
-              <Button onPress={onClose} type='submit' color='primary'>
+              <Button type='submit' color='primary'>
                 Submit
               </Button>
             </ModalFooter>

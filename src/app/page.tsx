@@ -1,21 +1,15 @@
-'use client'
+import CreateTopic from './components/create-topic';
+import PageLayout from './components/page-layout';
 
-import { Button, useDisclosure } from '@nextui-org/react';
-import ModalCreateTopic from './components/modal-create-topic';
-
-
-export default function Home() {
-  const { isOpen, onOpenChange, onOpen } = useDisclosure();
-
+export default async function Home() {
   return (
-
-    <main>
-      <Button onPress={onOpen} color='primary'>
-        New Topic
-      </Button>
-      <ModalCreateTopic isOpen={isOpen} onOpenChange={onOpenChange} />
-    </main>
- )
+    <PageLayout title='Top Posts' button={<CreateTopic />} sidebarTitle='Topics' topicSlug=''>
+      <ul>
+        <li>javascript</li>
+        <li>golang</li>
+        <li>servers</li>
+        <li>webdev</li>
+      </ul>
+    </PageLayout>
+  );
 }
-
-

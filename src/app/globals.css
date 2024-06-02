@@ -6,3 +6,8 @@
     min-width: -webkit-fill-available;
     padding: 5px 0px 5px 20px;
 }
+
+.button-sign{
+    width: 120px;
+    height: 60px;
+}

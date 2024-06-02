@@ -17,7 +17,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
 
     return (
       <main>
-        <div className="flex justify-between items-center bg-gray-100 rounded-lg p-4 ">
+        <div className="flex justify-between items-center bg-gray-100 rounded-lg px-16 py-4">
           <h2 className="ml--4"> 
             <SVGComponent/>
           </h2>
@@ -26,7 +26,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
           {!data?.user ? (
             <form action={action.signIn} >
               <Button
-                type="submit" onClick={onOpen} className="bg-gradient-to-tr from-green-500 to-blue-500 text-white shadow-lg">
+                type="submit" onClick={onOpen} className="bg-green-500 text-white shadow-lg button-sign ">
                 Sign in
               </Button>
               
@@ -36,7 +36,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
    
             <form action={action.signOut}>
 
-              <Button type="submit" className="bg-gradient-to-tr from-grey-800 to-grey-800 text-black shadow">Sign out</Button> 
+              <Button type="submit" className="bg-gradient-to-tr from-grey-800 to-grey-800 text-black shadow button-sign">Sign out</Button> 
             </form>
               
 
