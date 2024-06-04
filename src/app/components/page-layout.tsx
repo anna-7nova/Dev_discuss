@@ -17,7 +17,7 @@ export default function PageLayout({ title, button, sidebarTitle, topicSlug, chi
         <div className='flex-initial basis-1/4 p-4 flex flex-col gap-y-8'>
           {button}
           <div className='items-center p-2 border rounded'>
-            <h3 className='text-l font-bold'>{sidebarTitle}</h3>
+            <h3 className='text-l font-bold mb-4'>{sidebarTitle}</h3>
             {children}
           </div>
         </div>
