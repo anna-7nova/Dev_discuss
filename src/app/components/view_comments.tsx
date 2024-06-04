@@ -24,7 +24,7 @@ const addComment = topComment.map((comment) => {
 
 const user = await db.user.findFirst({ where: { id: userId } })
 return (
-  <div className="border flex flex-col mt-10 p-7 gap-5" style={{width: "70%"}}>
+  <div className="border rounded-lg flex flex-col mt-10 p-7 gap-5" style={{width: "70%"}}>
   <h3 style={{ fontWeight: "500" }}>All {comments.length} comments</h3>
   <div className="flex flex-col gap-2">
     <div className="flex flex-row gap-7">

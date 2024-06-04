@@ -38,7 +38,7 @@ export default async function CommentReplayShow({
   });
   const user = await db.user.findFirst({ where: { id: userId} })
   return (
-    <div className="border  flex flex-col gap-7 p-7">
+    <div className="border rounded-lg flex flex-col gap-7 p-7">
       <Avatar></Avatar>
       <div className="flex flex-col gap-2">
         <h3>{user?.name}</h3>

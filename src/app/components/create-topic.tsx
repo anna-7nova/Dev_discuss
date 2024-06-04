@@ -7,7 +7,7 @@ export default function CreateTopic() {
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
   return (
     <>
-      <Button className='self-end border p-2 border-rounded' onPress={onOpen} color='primary'>
+      <Button className='self-end p-2  rounded-lg button_create bg-graphit' onPress={onOpen} color='primary'>
         New Topic
       </Button>
       <ModalCreateTopic isOpen={isOpen} onOpenChange={onOpenChange} />

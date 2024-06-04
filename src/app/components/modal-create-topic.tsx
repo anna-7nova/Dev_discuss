@@ -25,7 +25,7 @@ export default function ModalCreateTopic({ isOpen, onOpenChange }: ModalWindowPr
               <CustomInput id='description' label='Description' placeholder='Enter a description' name='description' />
             </ModalBody>
             <ModalFooter>
-              <Button type='submit' color='primary'>
+              <Button type='submit'  className='bg-olive'>
                 Submit
               </Button>
             </ModalFooter>

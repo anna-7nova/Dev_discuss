@@ -25,7 +25,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
           {!data?.user ? (
             <form action={action.signIn} >
               <Button
-                type="submit" onClick={onOpen} className="bg-green-500 text-white shadow-lg button-sign ">
+                type="submit" onClick={onOpen} className="bg-green-500 text-white shadow-lg button-sign bg-olive">
                 Sign in
               </Button>
               
@@ -35,7 +35,7 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
    
             <form action={action.signOut}>
 
-              <Button type="submit" className="bg-gradient-to-tr from-grey-800 to-grey-800 text-black shadow button-sign">Sign out</Button> 
+              <Button type="submit" className="bg-gradient-to-tr from-grey-800 to-grey-800 text-black shadow button-sign ">Sign out</Button> 
             </form>
               
 

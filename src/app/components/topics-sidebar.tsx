@@ -10,7 +10,7 @@ export default async function TopicsSidebar() {
           <li key={id}>
             <Link
               href={`/topics/${slug}`}
-              className='p-1.5 text-lg font-medium leading-5 text-zinc-800 border-solid border-2 border-zinc-200 rounded-2xl transition ease-in-out delay-150 hover:bg-zinc-200'
+              className='p-2 text-lg font-medium leading-5 text-zinc-800 border-solid border-2 border-zinc-200 rounded-2xl transition ease-in-out delay-150 hover:bg-zinc-200'
             >
               {slug}
             </Link>

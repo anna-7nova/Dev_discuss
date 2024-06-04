@@ -14,7 +14,7 @@ export default async function PostCard({ id, title, userId, topicId }: PostCardP
   const comments = await db.comment.findMany({ where: { postId: id } });
   return (
     <Link key={id} href={`/topics/${topic?.slug}/posts/${id}`} color='foreground'>
-      <div className='container flex flex-col gap-y-4 p-2 border rounded'>
+      <div className='container flex flex-col gap-y-4 p-8 border rounded-lg'>
         <p className='font-bold'>{title}</p>
         <div className='flex flex-row justify-between'>
           <div>By {user?.name || 'Anonymous'}</div>

@@ -15,8 +15,8 @@ export default async function ViewPost({  postId }: PostProps) {
     notFound();
   }
   return (
-    <div className="flex flex-col gap-5">
-      <h3 style={{ fontSize: "20", fontWeight: "600" }}>{post.title}</h3>
+    <div className="flex flex-col gap-5 border rounded-lg p-4" >
+      <h3 style={{ fontSize: "20", fontWeight: "600" }} className="underline underline-offset-2 ">{post.title}</h3>
       <p style={{ fontSize: "16" }}>{post.content}</p>
     </div>
   );

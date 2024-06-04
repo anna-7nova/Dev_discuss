@@ -48,7 +48,7 @@ export default function CommentCreation({
           </div>
         ) : null}
 
-        <Button type="submit" className="bg-blue-200">
+        <Button type="submit" className="bg-blue-200 bg-olive">
           Create comment
         </Button>
       </div>

@@ -8,7 +8,7 @@ export default function TopicView({ params }: { params: { topicId: string } }) {
       title={params.topicId}
       topicSlug={params.topicId}
       button={
-        <Button href={`/topics/${params.topicId}/posts/new`} as={Link} color='primary' className='self-end'>
+        <Button href={`/topics/${params.topicId}/posts/new`} as={Link} color='primary' className='self-end bg-graphit'>
           Create Post
         </Button>
       }

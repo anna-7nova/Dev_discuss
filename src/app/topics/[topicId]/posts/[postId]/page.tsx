@@ -16,7 +16,7 @@ export default function ViewPostPage({params} : ViewPostProps) {
 
   return (
     <main className="flex flex-col justify-start  p-3 gap-5" style={{width: "100%"}}>
-      <div className="flex flex-col p-10 gap-5">
+      <div className="flex flex-col p-10 gap-5 justify-center">
       <ViewPost postId = {postId}/>
       <CommentCreation postId = {postId} startOpen/>
        <ViewAllComments postId={postId}/>
