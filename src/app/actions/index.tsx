@@ -108,7 +108,7 @@ interface CreateCommentFormState {
 }
 
 export async function createComment(
-  { postId, parentId }: { postId: string, parentId: string | undefined },
+  { postId, parentId }: { postId: string, parentId?: string },
   formState: CreateCommentFormState,
   formData: FormData
 ): Promise<CreateCommentFormState> {
@@ -131,7 +131,7 @@ export async function createComment(
   }
 
   try {
-    await db.comment.create({
+    const newComment = await db.comment.create({
       data: {
         content: result.data.content,
         postId: postId,

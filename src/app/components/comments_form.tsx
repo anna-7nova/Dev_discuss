@@ -34,7 +34,7 @@ export default function CommentCreation({
 
   const form = (
     <form action={action} ref={ref}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" style={{ fontSize: "20", width: "50%" }}>
         <Textarea
           placeholder="Enter your comment here"
           name="content"
@@ -48,7 +48,7 @@ export default function CommentCreation({
           </div>
         ) : null}
 
-        <Button type="submit" className="bg-blue-200" style={{ width: "30%" }}>
+        <Button type="submit" className="bg-blue-200">
           Create comment
         </Button>
       </div>
