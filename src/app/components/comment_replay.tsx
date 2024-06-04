@@ -43,6 +43,7 @@ export default async function CommentReplayShow({
       <div className="flex flex-col gap-2">
         <h3>{user?.name}</h3>
         <p>{comment.content}</p>
+        {addChildren} 
         <CommentCreation postId={comment.postId} parentId={comment.id}/>
       </div>
     
