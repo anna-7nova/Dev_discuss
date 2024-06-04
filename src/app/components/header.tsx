@@ -3,7 +3,6 @@
 import { Button } from "@nextui-org/react";
 import { useDisclosure } from '@nextui-org/react';
 import * as action from "@/actions";
-import ModalSignWindow from './modalSignWindow'
 import SVGComponent from "./logotype";
 import SearchComponent from "./search"
 
@@ -41,14 +40,6 @@ const HeaderComponent: React.FC<headerComponentProps> =  ({data}) => {
               
 
           )}
-         <div>
-              { data.user &&
-                <ModalSignWindow name ={JSON.stringify(data.user?.name)} imageUrl = {JSON.stringify(data.user?.image)} isOpen={!isOpen} onOpenChange={onOpenChange} >
-                </ModalSignWindow>
-              }
-
-            </div>
-
           </div>
         </div>
 
