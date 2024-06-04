@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { db } from "@/db";
-import { notFound, redirect } from "next/navigation";
-import { z } from "zod";
-import { auth } from "@/auth";
-import { revalidatePath } from "next/cache";
+import { db } from '@/db';
+import { notFound, redirect } from 'next/navigation';
+import { z } from 'zod';
+import { auth } from '@/auth';
+import { revalidatePath } from 'next/cache';
 
 type FormState = {
   message: string;
@@ -12,18 +12,18 @@ type FormState = {
 
 export const createTopic = async (prevState: { message: string }, formData: FormData) => {
   const { name, description } = {
-    name: formData.get("name"),
-    description: formData.get("description"),
+    name: formData.get('name'),
+    description: formData.get('description'),
   };
 
   let newTopic;
   try {
-    if (typeof name !== "string" || name.length < 3) {
-      return { message: "Name should be longer" };
+    if (typeof name !== 'string' || name.length < 3) {
+      return { message: 'Name should be longer' };
     }
 
-    if (typeof description !== "string" || description.length < 2) {
-      return { message: "Description should be longer" };
+    if (typeof description !== 'string' || description.length < 2) {
+      return { message: 'Description should be longer' };
     }
 
     newTopic = await db.topic.create({
@@ -32,12 +32,11 @@ export const createTopic = async (prevState: { message: string }, formData: Form
         description,
       },
     });
-
   } catch (error: unknown) {
     if (error instanceof Error) {
       return { message: error.message };
     } else {
-      return { message: "Something went wrong" };
+      return { message: 'Something went wrong' };
     }
   }
   revalidatePath('/');
@@ -45,10 +44,9 @@ export const createTopic = async (prevState: { message: string }, formData: Form
 };
 
 export const createPost = async (slug: string, formState: FormState, formData: FormData) => {
-
   const { title, content } = {
-    title: formData.get("title"),
-    content: formData.get("content"),
+    title: formData.get('title'),
+    content: formData.get('content'),
   };
 
   const session = await auth();
@@ -66,12 +64,12 @@ export const createPost = async (slug: string, formState: FormState, formData: F
   let newPost;
 
   try {
-    if (typeof title !== "string" || title.length < 3) {
-      return { message: "Title should be longer" };
+    if (typeof title !== 'string' || title.length < 3) {
+      return { message: 'Title should be longer' };
     }
 
-    if (typeof content !== "string" || content.length < 2) {
-      return { message: "Content should be longer" };
+    if (typeof content !== 'string' || content.length < 2) {
+      return { message: 'Content should be longer' };
     }
 
     newPost = await db.post.create({
@@ -86,7 +84,7 @@ export const createPost = async (slug: string, formState: FormState, formData: F
     if (error instanceof Error) {
       return { message: error.message };
     } else {
-      return { message: "Something went wrong" };
+      return { message: 'Something went wrong' };
     }
   }
   revalidatePath(`/topics/${slug}`);
@@ -108,12 +106,12 @@ interface CreateCommentFormState {
 }
 
 export async function createComment(
-  { postId, parentId }: { postId: string, parentId?: string },
+  { postId, parentId }: { postId: string; parentId?: string },
   formState: CreateCommentFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CreateCommentFormState> {
   const result = createCommentScheme.safeParse({
-    content: formData.get("content"),
+    content: formData.get('content'),
   });
 
   if (!result.success) {
@@ -125,7 +123,7 @@ export async function createComment(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["please, authorize youself"],
+        _form: ['please, authorize youself'],
       },
     };
   }
@@ -141,8 +139,7 @@ export async function createComment(
     });
 
     return {
-      errors: {}
-      
+      errors: {},
     };
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -154,7 +151,7 @@ export async function createComment(
     } else {
       return {
         errors: {
-          _form: ["Something went wrong"],
+          _form: ['Something went wrong'],
         },
       };
     }
@@ -177,4 +174,31 @@ export async function createComment(
   }*/
 }
 
+export const fetchPosts = async (slug: string) => {
+  return await db.post.findMany({
+    where: { topic: { slug } },
+    include: {
+      topic: { select: { slug: true } },
+      user: { select: { name: true, image: true } },
+      _count: { select: { comments: true } },
+    },
+  });
+};
 
+export const fetchTopPosts = async () => {
+  return await db.post.findMany({
+    orderBy: [
+      {
+        comments: {
+          _count: 'desc',
+        },
+      },
+    ],
+    include: {
+      topic: { select: { slug: true } },
+      user: { select: { name: true, image: true } },
+      _count: { select: { comments: true } },
+    },
+    take: 5,
+  });
+};

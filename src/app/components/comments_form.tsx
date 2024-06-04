@@ -47,7 +47,6 @@ export default function CommentCreation({
             {formState.errors.content?.join(", ")}
           </div>
         ) : null}
-
         <Button type="submit" className="bg-blue-200 bg-olive">
           Create comment
         </Button>
@@ -57,9 +56,9 @@ export default function CommentCreation({
   return (
     <div className="flex flex-col gap-2">
       <Button
-        style={{ width: "10%", border: "1px solid black", color: "black" }}
+        style={{ width: "10%", border: "1px solid rgb(170, 212, 200)", color: "rgb(97, 110, 125)", backgroundAttachment: "black" }}
         variant="light"
-        color="primary"
+        color="default"
         onClick={() => setOpen(!open)}
       >
         Reply
