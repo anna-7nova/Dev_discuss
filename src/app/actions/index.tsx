@@ -1,94 +1,110 @@
 'use server';
 
 import { db } from '@/db';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
+import { CreatePostFormState, CreateTopicFormState } from '../types';
+import { paths } from '../utils/paths';
 
-type FormState = {
-  message: string;
-};
+const createTopicSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: 'Name should have at least 3 letters' })
+    .regex(/^[a-z\s]+$/i, { message: 'Name must consist only of letters' }),
+  description: z.string().min(10, { message: 'Description should have at least 10 letters' }),
+});
 
-export const createTopic = async (prevState: { message: string }, formData: FormData) => {
-  const { name, description } = {
-    name: formData.get('name'),
-    description: formData.get('description'),
-  };
+const createPostSchema = z.object({
+  title: z.string().min(3, { message: 'Title should have at least 3 letters' }),
+  content: z.string().min(10, { message: 'Content should have at least 10 letters' }),
+});
 
-  let newTopic;
-  try {
-    if (typeof name !== 'string' || name.length < 3) {
-      return { message: 'Name should be longer' };
-    }
-
-    if (typeof description !== 'string' || description.length < 2) {
-      return { message: 'Description should be longer' };
-    }
-
-    newTopic = await db.topic.create({
-      data: {
-        slug: name,
-        description,
-      },
-    });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return { message: error.message };
-    } else {
-      return { message: 'Something went wrong' };
-    }
+export const createTopic = async (
+  formState: CreateTopicFormState,
+  formData: FormData,
+): Promise<CreateTopicFormState> => {
+  const result = createTopicSchema.safeParse({ name: formData.get('name'), description: formData.get('description') });
+  console.log('click');
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
   }
-  revalidatePath('/');
-  redirect(`/topics/${newTopic.slug}`);
-};
-
-export const createPost = async (slug: string, formState: FormState, formData: FormData) => {
-  const { title, content } = {
-    title: formData.get('title'),
-    content: formData.get('content'),
-  };
 
   const session = await auth();
 
   if (!session || !session.user) {
-    return { message: 'You must be signed in to create a post' };
+    return { errors: { _form: ['You must be signed in to create a post.'] } };
+  }
+
+  let newTopic;
+  try {
+    newTopic = await db.topic.create({
+      data: {
+        slug: result.data.name.toLowerCase().split(' ').join('-'),
+        description: result.data.description,
+      },
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { errors: { _form: [error.message] } };
+    } else {
+      return { errors: { _form: ['Something went wrong'] } };
+    }
+  }
+  revalidatePath(paths.home());
+  redirect(paths.topic(newTopic.slug));
+};
+
+export const createPost = async (
+  slug: string,
+  formState: CreatePostFormState,
+  formData: FormData,
+): Promise<CreatePostFormState> => {
+  const result = createPostSchema.safeParse({
+    title: formData.get('title'),
+    content: formData.get('content'),
+  });
+
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
+  }
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return { errors: { _form: ['You must be signed in to create a post.'] } };
   }
 
   const topic = await db.topic.findFirst({ where: { slug } });
 
   if (!topic) {
-    return { message: 'Cannot find this topic' };
+    return { errors: { _form: ['Cannot find this topic'] } };
   }
 
   let newPost;
 
   try {
-    if (typeof title !== 'string' || title.length < 3) {
-      return { message: 'Title should be longer' };
-    }
-
-    if (typeof content !== 'string' || content.length < 2) {
-      return { message: 'Content should be longer' };
-    }
-
     newPost = await db.post.create({
       data: {
-        title,
-        content,
+        title: result.data.title,
+        content: result.data.content,
         userId: session.user.id,
         topicId: topic.id,
       },
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return { message: error.message };
+      return { errors: { _form: [error.message] } };
     } else {
-      return { message: 'Something went wrong' };
+      return { errors: { _form: ['Something went wrong'] } };
     }
   }
-  revalidatePath(`/topics/${slug}`);
-  redirect(`/topics/${slug}/posts/${newPost.id}`);
+  revalidatePath(paths.topic(slug));
+  redirect(paths.posts(slug, newPost.id));
 };
 
 // Create comment action
@@ -123,13 +139,13 @@ export async function createComment(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ['please, authorize youself'],
+        _form: ['You must be signed in to create a comment.'],
       },
     };
   }
 
   try {
-    const newComment = await db.comment.create({
+    await db.comment.create({
       data: {
         content: result.data.content,
         postId: postId,
@@ -137,11 +153,7 @@ export async function createComment(
         userId: session.user.id,
       },
     });
-
-    return {
-      errors: {},
-    };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) {
       return {
         errors: {
@@ -156,22 +168,22 @@ export async function createComment(
       };
     }
   }
-  /*const topic = await db.topic.findFirst({
-    where: {posts: {some: {id: postId}}}
-  })
-  
-  if(!topic){
+  const topic = await db.topic.findFirst({
+    where: { posts: { some: { id: postId } } },
+  });
+
+  if (!topic) {
     return {
       errors: {
-        _form: ["Failed topic"]
-      }
-    }
+        _form: ['Failed to revalidate topic'],
+      },
+    };
   }
-  revalidatePath("/");
+  revalidatePath(paths.posts(topic.slug, postId));
   return {
     errors: {},
     success: true,
-  }*/
+  };
 }
 
 export const fetchPosts = async (slug: string) => {

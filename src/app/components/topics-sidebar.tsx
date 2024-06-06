@@ -6,16 +6,19 @@ export default async function TopicsSidebar() {
   return (
     <nav>
       <ul className='flex flex-col gap-y-2'>
-        {topics.map(({ id, slug }) => (
-          <li key={id}>
-            <Link
-              href={`/topics/${slug}`}
-              className='p-1.5 text-lg font-medium leading-5 text-zinc-800 border-solid border-2 border-zinc-200 rounded-2xl transition ease-in-out delay-150 hover:bg-zinc-200'
-            >
-              {slug}
-            </Link>
-          </li>
-        ))}
+        {topics.map(({ id, slug }) => {
+          const normalizedSlug = slug.split('-').join(' ');
+          return (
+            <li key={id}>
+              <Link
+                href={`/topics/${slug}`}
+                className='p-2 text-lg font-medium leading-5 text-zinc-800 border-solid border-2 border-zinc-200 rounded-2xl transition ease-in-out delay-150 hover:bg-zinc-200'
+              >
+                {normalizedSlug}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

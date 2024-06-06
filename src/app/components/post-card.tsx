@@ -13,9 +13,11 @@ export default function PostCard({ id, title, user, topicSlug, numberOfComments 
   return (
     <Link key={id} href={`/topics/${topicSlug}/posts/${id}`} color='foreground'>
       <div className='container flex flex-col gap-y-4 p-2 border rounded'>
-        <p className='font-bold'>{title}</p>
+        <p className='text-lg font-bold'>{title}</p>
         <div className='flex flex-row justify-between'>
-          <div>By {user?.name || 'Anonymous'}</div>
+          <div className='flex flex-row justify-center gap-x-2'>
+            By <p className='text-base font-semibold italic'>{user?.name || 'Anonymous'}</p>
+          </div>
           <div>{numberOfComments} comments</div>
         </div>
       </div>

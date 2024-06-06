@@ -15,3 +15,19 @@ export type PostData = {
   user: UserData;
   _count: { comments: number };
 };
+
+export type CreateTopicFormState = {
+  errors: {
+    name?: string[];
+    description?: string[];
+    _form?: string[];
+  };
+};
+
+export type CreatePostFormState = {
+  errors: {
+    title?: string[];
+    content?: string[];
+    _form?: string[];
+  };
+};
