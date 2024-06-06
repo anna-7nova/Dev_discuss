@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+button:hover {
+    box-shadow: 0 10px 6px -6px #777;
+}
 .result-search {
     min-width: -webkit-fill-available;
     padding: 5px 0px 5px 20px;
@@ -10,4 +13,25 @@
 .button-sign{
     width: 120px;
     height: 60px;
+    font-size: large;
+    color: #0E0E0E;
+    font-weight: 600;
+}
+
+.button_create {
+    width: 120px;
+    height: 40px;
+    font-size: large;
+}
+
+.bg-olive {
+    background: rgb(170, 212, 200);
+}
+
+.bg-graphit {
+    background: rgb(97, 110, 125);
+}
+.column-2 {
+    display: flex;
+    flex-direction: column;
 }

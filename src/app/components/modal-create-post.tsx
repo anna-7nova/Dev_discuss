@@ -30,7 +30,7 @@ export default function ModalCreatePost({ onOpenChange, slug }: ModalWindowProps
               {!!errMessage && <p className='text-xs text-red-600'>{errMessage}</p>}
             </ModalBody>
             <ModalFooter>
-              <Button type='submit' color='primary'>
+              <Button type='submit'  className='bg-olive'>
                 Submit
               </Button>
             </ModalFooter>
